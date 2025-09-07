@@ -3,10 +3,10 @@
 import { useState, useCallback } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { ArrowLeft, Camera, Upload, X, Image as ImageIcon, Loader2 } from 'lucide-react'
+import { ArrowLeft, Camera, Upload, X, Image as ImageIcon, Loader2, AlertCircle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { useAppStore, useHasValidApiKeys, useApiKeys } from '@/lib/store'
+import { useAppStore, useHasValidApiKeys, useApiKeys, useError } from '@/lib/store'
 import { isValidImageFile, formatFileSize, createImagePreview, generateId } from '@/lib/utils'
 import { GeminiClient } from '@/lib/gemini'
 import type { PhotoMetadata } from '@/types'
@@ -16,7 +16,9 @@ export default function UploadPage() {
   const hasValidApiKeys = useHasValidApiKeys()
   const apiKeys = useApiKeys()
   const { addPhoto, addAnalysis, setLoadingState, setError, clearError } = useAppStore()
-  
+  const uploadError = useError('upload')
+  const analysisError = useError('analysis')
+
   const [dragActive, setDragActive] = useState(false)
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
   const [preview, setPreview] = useState<string | null>(null)
@@ -201,6 +203,20 @@ export default function UploadPage() {
             Choose a photo to begin your memory enhancement journey. Our AI will analyze the image and create an emotional story around it.
           </p>
         </div>
+
+        {/* Error Display */}
+        {(uploadError || analysisError) && (
+          <Card className="border-red-200 bg-red-50 mb-6">
+            <CardContent className="p-4">
+              <div className="flex items-center space-x-2 text-red-700">
+                <AlertCircle className="h-5 w-5" />
+                <p className="font-medium">
+                  {uploadError || analysisError}
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+        )}
 
         {!selectedFile ? (
           <Card className="border-2 border-dashed border-gray-300 hover:border-blue-400 transition-colors">

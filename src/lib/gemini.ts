@@ -6,21 +6,34 @@ export class GeminiClient {
   private model: any
 
   constructor(apiKey: string) {
+    if (!apiKey || apiKey.trim() === '') {
+      throw new Error('Gemini API key is required')
+    }
+
     this.genAI = new GoogleGenerativeAI(apiKey)
-    this.model = this.genAI.getGenerativeModel({ model: 'gemini-2.0-flash-exp' })
+    this.model = this.genAI.getGenerativeModel({ model: 'gemini-1.5-flash' })
   }
 
   async analyzePhoto(imageData: string): Promise<PhotoAnalysis> {
     try {
+      // Extract MIME type from data URL
+      const mimeTypeMatch = imageData.match(/data:([^;]+);base64,/)
+      const mimeType = mimeTypeMatch ? mimeTypeMatch[1] : 'image/jpeg'
+      const base64Data = imageData.split(',')[1]
+
+      if (!base64Data) {
+        throw new Error('Invalid image data format')
+      }
+
       const prompt = `
         Analyze this photo in detail and provide a comprehensive analysis in JSON format.
-        
+
         Please analyze:
         1. Visual content (objects, people, emotions, setting, time of day, weather, activities)
         2. Photo quality metrics (sharpness, brightness, contrast, saturation, noise level)
         3. Enhancement suggestions with priorities
         4. Story elements (suggested questions, themes, emotional tone)
-        
+
         Return a JSON object with this structure:
         {
           "visualContent": {
@@ -57,7 +70,7 @@ export class GeminiClient {
             "emotionalTone": "joyful and warm"
           }
         }
-        
+
         Be specific and detailed in your analysis. Focus on elements that would help create meaningful conversations about memories.
       `
 
@@ -65,18 +78,26 @@ export class GeminiClient {
         prompt,
         {
           inlineData: {
-            data: imageData.split(',')[1], // Remove data:image/jpeg;base64, prefix
-            mimeType: 'image/jpeg'
+            data: base64Data,
+            mimeType: mimeType
           }
         }
       ])
 
       const response = await result.response
       const text = response.text()
-      
+
+      // Clean up the response text to ensure it's valid JSON
+      let cleanText = text.trim()
+      if (cleanText.startsWith('```json')) {
+        cleanText = cleanText.replace(/^```json\s*/, '').replace(/\s*```$/, '')
+      } else if (cleanText.startsWith('```')) {
+        cleanText = cleanText.replace(/^```\s*/, '').replace(/\s*```$/, '')
+      }
+
       // Parse JSON response
-      const analysisData = JSON.parse(text)
-      
+      const analysisData = JSON.parse(cleanText)
+
       // Create PhotoAnalysis object with generated ID
       const analysis: PhotoAnalysis = {
         id: Math.random().toString(36).substring(2),
@@ -87,7 +108,19 @@ export class GeminiClient {
       return analysis
     } catch (error) {
       console.error('Error analyzing photo with Gemini:', error)
-      throw new Error('Failed to analyze photo')
+
+      // Provide more specific error messages
+      if (error instanceof Error) {
+        if (error.message.includes('API_KEY_INVALID')) {
+          throw new Error('Invalid Gemini API key. Please check your API key in Settings.')
+        } else if (error.message.includes('QUOTA_EXCEEDED')) {
+          throw new Error('Gemini API quota exceeded. Please try again later.')
+        } else if (error.message.includes('JSON')) {
+          throw new Error('Failed to parse AI response. Please try again.')
+        }
+      }
+
+      throw new Error('Failed to analyze photo. Please check your API key and try again.')
     }
   }
 
