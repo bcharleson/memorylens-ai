@@ -304,11 +304,11 @@ export default function UploadPage() {
                   <p className="text-gray-600 mb-6">
                     Our AI will analyze the visual content, emotions, and create conversation starters about your memory.
                   </p>
-                  <Button 
+                  <Button
                     onClick={handleAnalyze}
                     disabled={isAnalyzing}
                     size="lg"
-                    className="bg-blue-600 hover:bg-blue-700"
+                    className="bg-blue-600 hover:bg-blue-700 text-white hover:text-white"
                   >
                     {isAnalyzing ? (
                       <>
