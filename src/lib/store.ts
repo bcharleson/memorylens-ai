@@ -31,10 +31,15 @@ interface AppState {
   addAnalysis: (analysis: PhotoAnalysis) => void
   getAnalysisForPhoto: (photoId: string) => PhotoAnalysis | undefined
   
-  // Conversation
-  conversation: ConversationMessage[]
+  // Conversation (organized by photo ID for better memory management)
+  conversations: Record<string, ConversationMessage[]>
+  conversation: ConversationMessage[] // Current active conversation
   addMessage: (message: ConversationMessage) => void
+  addMessageToPhoto: (photoId: string, message: ConversationMessage) => void
+  getConversationForPhoto: (photoId: string) => ConversationMessage[]
+  setActiveConversation: (photoId: string) => void
   clearConversation: () => void
+  clearAllConversations: () => void
   
   // Loading states
   loadingStates: Record<string, LoadingState>
@@ -132,14 +137,36 @@ export const useAppStore = create<AppState>()(
         return state.analyses.find(a => a.photoId === photoId)
       },
 
-      // Conversation
+      // Conversation management
+      conversations: {},
       conversation: [],
+
       addMessage: (message) =>
         set((state) => ({
           conversation: [...state.conversation, message]
         })),
-      
+
+      addMessageToPhoto: (photoId, message) =>
+        set((state) => ({
+          conversations: {
+            ...state.conversations,
+            [photoId]: [...(state.conversations[photoId] || []), message]
+          }
+        })),
+
+      getConversationForPhoto: (photoId) => {
+        const state = get()
+        return state.conversations[photoId] || []
+      },
+
+      setActiveConversation: (photoId) =>
+        set((state) => ({
+          conversation: state.conversations[photoId] || []
+        })),
+
       clearConversation: () => set({ conversation: [] }),
+
+      clearAllConversations: () => set({ conversations: {}, conversation: [] }),
 
       // Loading states
       loadingStates: {},
@@ -179,7 +206,13 @@ export const useAppStore = create<AppState>()(
       partialize: (state) => ({
         settings: state.settings,
         voiceAgent: state.voiceAgent,
-        activeTab: state.activeTab
+        activeTab: state.activeTab,
+        // Persist conversation and photo data for local memory
+        photos: state.photos,
+        analyses: state.analyses,
+        conversations: state.conversations,
+        conversation: state.conversation,
+        currentSession: state.currentSession
       })
     }
   )

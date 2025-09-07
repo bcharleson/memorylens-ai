@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { Camera, Heart, Sparkles, Play, Settings, Upload } from 'lucide-react'
+import { Camera, Heart, Sparkles, Play, Settings, Upload, Database } from 'lucide-react'
 import { useHasValidApiKeys } from '@/lib/store'
 
 export default function Home() {
@@ -217,6 +217,15 @@ export default function Home() {
                 </button>
               </Link>
             )}
+
+            <Link href="/memories">
+              <button className="cta-secondary-button">
+                <span className="cta-button-icon">
+                  <Database className="h-5 w-5" />
+                </span>
+                <span className="cta-button-text">View Memory Dashboard</span>
+              </button>
+            </Link>
 
             <div className="cta-trust-indicators">
               <span className="cta-trust-item">🔒 Secure & Private</span>

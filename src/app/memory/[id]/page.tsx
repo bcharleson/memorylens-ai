@@ -17,7 +17,16 @@ interface MemoryPageProps {
 }
 
 export default function MemoryPage({ params }: MemoryPageProps) {
-  const { photos, analyses, conversation, addMessage, voiceAgent } = useAppStore()
+  const {
+    photos,
+    analyses,
+    conversation,
+    addMessage,
+    addMessageToPhoto,
+    getConversationForPhoto,
+    setActiveConversation,
+    voiceAgent
+  } = useAppStore()
   const apiKeys = useApiKeys()
   
   const [message, setMessage] = useState('')
@@ -30,11 +39,17 @@ export default function MemoryPage({ params }: MemoryPageProps) {
   const analysis = analyses.find(a => a.photoId === params.id)
 
   useEffect(() => {
-    // Initialize conversation if this is the first visit
-    if (analysis && conversation.length === 0) {
-      initializeConversation()
+    // Load conversation for this specific photo
+    if (params.id) {
+      setActiveConversation(params.id)
+      const photoConversation = getConversationForPhoto(params.id)
+
+      // Initialize conversation if this is the first visit
+      if (analysis && photoConversation.length === 0) {
+        initializeConversation()
+      }
     }
-  }, [analysis])
+  }, [params.id, analysis])
 
   const initializeConversation = async () => {
     if (!analysis || !apiKeys.elevenlabs) return
@@ -56,6 +71,7 @@ export default function MemoryPage({ params }: MemoryPageProps) {
         relatedPhotoId: params.id
       }
 
+      addMessageToPhoto(params.id, welcomeMessage)
       addMessage(welcomeMessage)
     } catch (error) {
       console.error('Failed to initialize conversation:', error)
@@ -73,15 +89,17 @@ export default function MemoryPage({ params }: MemoryPageProps) {
       relatedPhotoId: params.id
     }
 
+    addMessageToPhoto(params.id, userMessage)
     addMessage(userMessage)
     setMessage('')
     setIsGeneratingResponse(true)
 
     try {
       const elevenLabsClient = new ElevenLabsClient(apiKeys.elevenlabs)
+      const currentConversation = getConversationForPhoto(params.id)
       const response = await elevenLabsClient.generateConversationResponse(
         analysis,
-        [...conversation, userMessage],
+        [...currentConversation, userMessage],
         voiceAgent
       )
 
@@ -94,6 +112,7 @@ export default function MemoryPage({ params }: MemoryPageProps) {
         relatedPhotoId: params.id
       }
 
+      addMessageToPhoto(params.id, assistantMessage)
       addMessage(assistantMessage)
     } catch (error) {
       console.error('Failed to generate response:', error)
@@ -104,6 +123,7 @@ export default function MemoryPage({ params }: MemoryPageProps) {
         timestamp: new Date(),
         relatedPhotoId: params.id
       }
+      addMessageToPhoto(params.id, errorMessage)
       addMessage(errorMessage)
     } finally {
       setIsGeneratingResponse(false)
