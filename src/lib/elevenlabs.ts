@@ -160,7 +160,7 @@ export class ElevenLabsClient {
           greeting: 'Hello there!',
           acknowledgment: 'That sounds wonderful.',
           excitement: 'How lovely!',
-          curiosity: 'I'm curious,'
+          curiosity: "I am curious,"
         }
       case 'nostalgic':
         return {
