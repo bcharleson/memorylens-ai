@@ -11,7 +11,8 @@ export class GeminiClient {
     }
 
     this.genAI = new GoogleGenerativeAI(apiKey)
-    this.model = this.genAI.getGenerativeModel({ model: 'gemini-1.5-flash' })
+    // Using the Nano Banana Hackathon specific model for state-of-the-art image generation and editing
+    this.model = this.genAI.getGenerativeModel({ model: 'gemini-2.5-flash-image-preview' })
   }
 
   async analyzePhoto(imageData: string): Promise<PhotoAnalysis> {

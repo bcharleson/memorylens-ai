@@ -2,7 +2,7 @@
 
 > Transform your photos into living, breathing memories with AI-powered analysis and emotional storytelling.
 
-**MemoryLens AI** is a revolutionary application that combines **Gemini 2.5 Flash** image analysis with **ElevenLabs** voice AI to create deeply personal and emotional photo memory experiences. Built by **Brandon Charleson** for the **Nano Banana Hackathon**.
+**MemoryLens AI** is a revolutionary application that combines **Gemini 2.5 Flash Image Preview** (the state-of-the-art image generation and editing model) with **ElevenLabs** voice AI to create deeply personal and emotional photo memory experiences. Built by **Brandon Charleson** for the **Nano Banana Hackathon**.
 
 ## 🎯 What is MemoryLens AI?
 
@@ -11,7 +11,7 @@ MemoryLens AI turns your photos into interactive conversations. Upload any photo
 ## ✨ Core Features
 
 ### 🧠 **Intelligent Photo Analysis**
-Upload any photo and watch as Gemini 2.5 Flash analyzes every detail - from objects and people to emotions and hidden stories. The AI understands context, mood, and visual elements that make your photo special.
+Upload any photo and watch as Gemini 2.5 Flash Image Preview analyzes every detail - from objects and people to emotions and hidden stories. The AI understands context, mood, and visual elements that make your photo special.
 
 ### 💬 **Conversational Memory Discovery**
 Engage in natural conversations about your photos. The AI asks thoughtful questions, helps you remember forgotten details, and guides you through the story behind each image with emotional intelligence.
@@ -26,7 +26,7 @@ The AI doesn't just analyze - it enhances. Get suggestions for improving your ph
 
 ### What You Need
 - Node.js 18+ and npm
-- **Gemini 2.5 Flash API Key** from [Google AI Studio](https://aistudio.google.com/app/apikey)
+- **Gemini 2.5 Flash Image Preview API Key** from [Google AI Studio](https://aistudio.google.com/app/apikey)
 - **ElevenLabs API Key** from [ElevenLabs Dashboard](https://elevenlabs.io/app/speech-synthesis)
 
 ### Setup (2 minutes)
@@ -47,13 +47,13 @@ Open [http://localhost:3000](http://localhost:3000), add your API keys in Settin
 
 ### The Technology
 - **Next.js 14** with TypeScript for the web application
-- **Gemini 2.5 Flash** for advanced photo analysis and conversation
+- **Gemini 2.5 Flash Image Preview** for state-of-the-art photo analysis and conversation
 - **ElevenLabs** for emotional voice generation
 - **Modern UI** with Tailwind CSS and smooth animations
 
 ### The Process
 1. **Upload** → Drop any photo into MemoryLens AI
-2. **Analyze** → Gemini 2.5 Flash understands your photo's content and context
+2. **Analyze** → Gemini 2.5 Flash Image Preview understands your photo's content and context
 3. **Converse** → Chat naturally about your photo and its memories
 4. **Listen** → Hear your story brought to life with ElevenLabs voice AI
 5. **Enhance** → Get suggestions and improvements for your memories

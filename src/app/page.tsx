@@ -77,7 +77,7 @@ export default function Home() {
                   <div className="api-setup-features">
                     <div className="api-feature">
                       <span className="api-feature-icon">🧠</span>
-                      <span>Gemini 2.5 Flash for photo analysis</span>
+                      <span>Gemini 2.5 Flash Image Preview for photo analysis</span>
                     </div>
                     <div className="api-feature">
                       <span className="api-feature-icon">🎙️</span>
@@ -239,7 +239,7 @@ export default function Home() {
               Built by <span className="creator-name">Brandon Charleson</span>
             </p>
             <p className="footer-details">
-              For the Nano Banana Hackathon • Powered by Gemini 2.5 Flash & ElevenLabs
+              For the Nano Banana Hackathon • Powered by Gemini 2.5 Flash Image Preview & ElevenLabs
             </p>
           </div>
         </div>

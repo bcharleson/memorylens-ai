@@ -73,7 +73,7 @@ export default function SettingsPage() {
               API Keys
             </CardTitle>
             <CardDescription>
-              Configure your API keys for Gemini 2.5 Flash and ElevenLabs to enable all features.
+              Configure your API keys for Gemini 2.5 Flash Image Preview and ElevenLabs to enable all features.
               Your keys are encrypted and stored locally in your browser.
             </CardDescription>
           </CardHeader>
@@ -81,7 +81,7 @@ export default function SettingsPage() {
             {/* Gemini API Key */}
             <div className="space-y-2">
               <label className="text-sm font-medium text-gray-700">
-                Gemini 2.5 Flash API Key
+                Gemini 2.5 Flash Image Preview API Key
               </label>
               <div className="flex space-x-2">
                 <div className="flex-1 relative">
@@ -216,7 +216,7 @@ export default function SettingsPage() {
           <CardContent>
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-sm font-medium">Gemini 2.5 Flash</span>
+                <span className="text-sm font-medium">Gemini 2.5 Flash Image Preview</span>
                 <span className={`text-sm px-2 py-1 rounded-full ${
                   apiKeys.gemini 
                     ? 'bg-green-100 text-green-800' 
