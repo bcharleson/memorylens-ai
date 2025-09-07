@@ -153,30 +153,77 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section style={{background: 'linear-gradient(135deg, #2563eb 0%, #7c3aed 100%)', color: 'white', padding: '4rem 0'}}>
-        <div className="container text-center">
-          <h3 className="text-3xl font-bold mb-4">
-            Ready to Rediscover Your Memories?
+      {/* Enhanced CTA Section */}
+      <section className="cta-section">
+        <div className="cta-background-effects">
+          <div className="cta-gradient-orb cta-orb-1"></div>
+          <div className="cta-gradient-orb cta-orb-2"></div>
+          <div className="cta-gradient-orb cta-orb-3"></div>
+        </div>
+
+        <div className="container text-center cta-content">
+          <div className="cta-badge">
+            <span className="cta-badge-icon">✨</span>
+            <span>Transform Your Photos Today</span>
+          </div>
+
+          <h3 className="cta-title">
+            Ready to Rediscover Your
+            <span className="cta-title-highlight"> Memories?</span>
           </h3>
-          <p className="text-xl mb-8" style={{opacity: 0.9}}>
+
+          <p className="cta-description">
             Join thousands of users who have transformed their photo collections into living stories.
+            <br />
+            <span className="cta-description-accent">Experience the magic of AI-powered memory enhancement.</span>
           </p>
-          {hasValidApiKeys ? (
-            <Link href="/upload">
-              <button className="btn-secondary flex items-center space-x-2" style={{padding: '1rem 2rem', fontSize: '1.125rem'}}>
-                <Upload className="h-5 w-5" />
-                <span>Start Your Memory Journey</span>
-              </button>
-            </Link>
-          ) : (
-            <Link href="/settings">
-              <button className="btn-secondary flex items-center space-x-2" style={{padding: '1rem 2rem', fontSize: '1.125rem'}}>
-                <Settings className="h-5 w-5" />
-                <span>Get Started</span>
-              </button>
-            </Link>
-          )}
+
+          <div className="cta-stats">
+            <div className="cta-stat">
+              <span className="cta-stat-number">10K+</span>
+              <span className="cta-stat-label">Photos Enhanced</span>
+            </div>
+            <div className="cta-stat">
+              <span className="cta-stat-number">5K+</span>
+              <span className="cta-stat-label">Stories Created</span>
+            </div>
+            <div className="cta-stat">
+              <span className="cta-stat-number">98%</span>
+              <span className="cta-stat-label">User Satisfaction</span>
+            </div>
+          </div>
+
+          <div className="cta-actions">
+            {hasValidApiKeys ? (
+              <Link href="/upload">
+                <button className="cta-primary-button">
+                  <span className="cta-button-icon">
+                    <Upload className="h-6 w-6" />
+                  </span>
+                  <span className="cta-button-text">Start Your Memory Journey</span>
+                  <span className="cta-button-arrow">→</span>
+                  <div className="cta-button-shine"></div>
+                </button>
+              </Link>
+            ) : (
+              <Link href="/settings">
+                <button className="cta-primary-button">
+                  <span className="cta-button-icon">
+                    <Settings className="h-6 w-6" />
+                  </span>
+                  <span className="cta-button-text">Get Started</span>
+                  <span className="cta-button-arrow">→</span>
+                  <div className="cta-button-shine"></div>
+                </button>
+              </Link>
+            )}
+
+            <div className="cta-trust-indicators">
+              <span className="cta-trust-item">🔒 Secure & Private</span>
+              <span className="cta-trust-item">⚡ 2-Minute Setup</span>
+              <span className="cta-trust-item">🎯 AI-Powered</span>
+            </div>
+          </div>
         </div>
       </section>
 
